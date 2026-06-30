@@ -26,8 +26,8 @@ Carregue cada um ao chegar na fase correspondente:
 2. Mapeie a arquitetura atual: arquivos-fonte, camadas existentes (ou a ausência delas) e o **route map** — todos os endpoints (método + path), lendo o registro de rotas e qualquer arquivo tipo `api.http`.
 3. Imprima o resumo: linguagem, framework, dependências, domínio, arquitetura, nº de arquivos analisados, tabelas/coleções do banco.
 4. Gere o **harness de caracterização** a partir do route map e capture o **baseline**:
-   - Sobe o app num porto livre, em background; espera ficar pronto (poll no `/` ou `/health`).
-   - Bate em cada endpoint: GET sem corpo; para POST/PUT/DELETE, um payload mínimo representativo inferido das validações do código (ou do `api.http`).
+   - Sobe o app num porto livre, em background; espera ficar pronto (poll no `/` ou `/health`). Se o porto está hardcoded no código, importe o objeto app/WSGI e sirva num porto livre (ou passe `PORT` por env) — não dependa do `__main__`.
+   - Bate em cada endpoint: GET sem corpo; para POST/PUT/DELETE, um payload mínimo representativo inferido das validações do código (ou do `api.http`). Envie `Content-Type: application/json` nas requisições com corpo — sem o header, frameworks como Flask retornam 415, que o `try/except` original vira 500 e falsifica o baseline.
    - Grava por endpoint `{método, path, classe_de_status, chaves_de_topo}` em `harness/baseline.json` dentro do projeto, e o script gerador em `harness/`.
    - Se algum endpoint exercitado dispara um **efeito externo real** (e-mail/SMS/cobrança), neutralize-o (stub/monkeypatch/variável de ambiente) **antes** de capturar. Só neutralize o que um endpoint do harness realmente alcança — não invente stub para código morto/não-roteado.
 
@@ -50,6 +50,8 @@ Só após "sim".
 2. Reestruture para o alvo MVC de `references/mvc-guidelines.md`, aplicando as transformações de `references/playbook.md` que casam com os achados: configuração sem segredo hardcoded, **Models** abstraindo dados, **Views/Rotas** sem lógica de negócio, **Controllers** orquestrando o fluxo, **tratamento de erro centralizado**, **entry point / composition root** claro.
 3. **Regra do hash de senha:** ao trocar armazenamento de senha por hash, migre também os dados semeados (seed/fixtures) para o novo esquema — senão o login regride de 200→401 e o harness fica vermelho.
 4. Re-rode o harness. **Verde** = para cada endpoint, a **classe de status** (2xx/4xx/5xx) é idêntica ao baseline. O shape do corpo é comparado de forma frouxa (chaves de topo): tolere campos removidos por segurança (ex: `senha`, `password`); trate qualquer **regressão de classe de status** como vermelho.
-5. Se vermelho, conserte e re-rode até verde. Não declare pronto com o harness vermelho.
+   - O diff de chaves-de-topo é **cego a campos aninhados**: se o segredo/PII está dentro de uma lista/objeto (ex: `dados[].senha`), o harness não enxerga a remoção — **verifique manualmente** que ele saiu.
+   - Correção que muda a classe de status **de propósito** (ex: pôr auth num endpoint destrutivo, remover endpoint de SQL arbitrário) é permitida: ver `references/mvc-guidelines.md` › _exceção ao harness verde_ (hardening + re-baseline + documentar). Nunca deixe um endpoint inseguro aberto só para o status bater.
+5. Se vermelho (regressão acidental), conserte e re-rode até verde. Não declare pronto com o harness vermelho.
 
 **Completo quando:** a estrutura MVC existe (config, models, views/rotas, controllers, erro centralizado, entry point), o app sobe sem erro, e o harness re-rodou **verde** (classe de status preservada em todos os endpoints).

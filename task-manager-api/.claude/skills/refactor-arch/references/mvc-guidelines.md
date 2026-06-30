@@ -24,7 +24,7 @@ Orquestra o fluxo da requisição: valida input, chama models/services, monta a 
 Casos de uso que cruzam models ou tocam o mundo externo (e-mail, pagamento, cache). Mantém o controller fino e o efeito isolado (e testável/stubável).
 
 ### Config (`config/`)
-Configuração e segredos **fora do código**, lidos do ambiente (`os.environ` / `process.env`), com defaults seguros. Zero credencial hardcoded. `DEBUG` vem de env, default desligado.
+Configuração e segredos **fora do código**, lidos do ambiente (`os.environ` / `process.env`). Zero credencial hardcoded. Segredo real (SECRET_KEY, senha de banco, chave de pagamento) vem da env; um default **só-de-dev, claramente marcado** é aceitável para o app subir com um comando, mas **nunca** um segredo de produção real embutido. `DEBUG` vem de env, default desligado.
 
 ### Tratamento de erro centralizado
 Um único ponto que captura exceções e devolve resposta padronizada (Flask `@app.errorhandler` / middleware de erro do Express). Handlers param de repetir `try/except → str(e)`; o cliente nunca recebe detalhe interno.
@@ -55,3 +55,15 @@ src/
 - **Parcialmente organizado** (já tem `models/`, `routes/`, `services/`): não recrie o que existe — **corrija os vazamentos** (lógica na rota → controller/service; segredo no código → config; model que vaza campo sensível → serializer; efeito no import → composition root). Melhorar a estrutura existente conta como Fase 3.
 
 A regra de ouro do contrato: refatorar **preserva o comportamento externo** (a classe de status de cada endpoint), removendo só o que é inseguro (segredo/PII no corpo). É isso que o harness verde prova.
+
+## Quando corrigir um achado muda a classe de status (exceção ao harness verde)
+
+Às vezes a correção de um achado CRITICAL **precisa** mudar o contrato — ex: pôr autenticação num endpoint destrutivo (`/admin/reset-db`: 200 → 401) ou remover um endpoint de SQL arbitrário (`/admin/query`: 200 → 404). Isso é uma mudança **intencional de segurança**, não uma regressão acidental.
+
+O harness verde guarda contra regressão **acidental**. Para uma mudança intencional, é permitido alterar a classe de status — desde que você:
+
+1. faça o **hardening** de fato (não deixe o buraco aberto só para o status bater);
+2. **re-baseline** aquele endpoint (atualize `harness/baseline.json` com o novo status esperado); e
+3. **documente** no relatório que aquele endpoint mudou de propósito, por segurança.
+
+Nunca mantenha um endpoint inseguro aberto apenas para preservar a classe de status — **endereçar o achado vence o contrato**.

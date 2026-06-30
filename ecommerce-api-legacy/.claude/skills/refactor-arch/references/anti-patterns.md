@@ -1,6 +1,15 @@
 # Catálogo de anti-patterns
 
-Cada entrada: **princípio agnóstico** + **sinais de detecção acionáveis por stack** + impacto. Os sinais são o que você procura no código frio — regex/AST, não "código ruim". Severidade conforme `CONTEXT.md`. Cruze **todo** o catálogo na Fase 2; depois rode a seção de **APIs deprecated**.
+Cada entrada: **princípio agnóstico** + **sinais de detecção acionáveis por stack** + impacto. Os sinais são o que você procura no código frio — regex/AST, não "código ruim". Cruze **todo** o catálogo na Fase 2; depois rode a seção de **APIs deprecated**.
+
+## Régua de severidade
+
+Classifique cada achado por esta régua (violações de MVC/SOLID + segurança) — não invente níveis paralelos:
+
+- **CRITICAL** — falha grave de arquitetura/segurança que impede o funcionamento correto, expõe dados sensíveis (credencial hardcoded, SQL Injection) ou viola por completo a separação de responsabilidades (God Class com banco + lógica + roteamento juntos).
+- **HIGH** — violação forte de MVC/SOLID que dificulta muito manutenção e teste (lógica de negócio presa no controller, acoplamento forte sem injeção de dependência, estado global mutável).
+- **MEDIUM** — padronização, duplicação ou gargalo moderado de performance (query N+1, middleware mal usado, validação ausente/duplicada).
+- **LOW** — legibilidade, nomenclatura ruim ou _magic numbers_ soltos.
 
 ---
 

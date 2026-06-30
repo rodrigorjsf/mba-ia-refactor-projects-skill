@@ -1,6 +1,6 @@
 # Playbook de refatoração
 
-Transformações concretas, do achado ao código corrigido. Cada uma: princípio + antes/depois por stack. Aplique as que casam com os achados da Fase 2. Exemplos em Flask/SQLite e Express/SQLite (ADR-0001); o princípio é o mesmo em qualquer stack.
+Transformações concretas, do achado ao código corrigido. Cada uma: princípio + antes/depois por stack. Aplique as que casam com os achados da Fase 2. Exemplos em Flask/SQLite e Express/SQLite; o princípio é o mesmo em qualquer stack.
 
 ---
 
@@ -49,7 +49,9 @@ db.get("SELECT * FROM users WHERE email = ?", [e], cb)
 app.config["SECRET_KEY"] = "minha-chave-super-secreta-123"
 # Depois (config/settings.py)
 import os
-SECRET_KEY = os.environ["SECRET_KEY"]           # obrigatório, sem default fraco
+# Segredo real vem da env; o default é SÓ-DE-DEV (claramente marcado) para o app
+# subir com um comando. Em produção, exija a env (falhe rápido se ausente).
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-troque-em-producao")
 DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
 ```
 ```js

@@ -1,6 +1,6 @@
 # Template do relatório de auditoria (Fase 2)
 
-Salvar em `reports/audit-project-<N>.md`. Achados **ordenados por severidade decrescente** (CRITICAL → HIGH → MEDIUM → LOW). Mínimo: 5 achados, ≥1 CRITICAL ou HIGH. Cada achado traz severidade, arquivo:linha, descrição, impacto e recomendação.
+Salvar em `reports/audit-project-<N>.md`, onde `<N>` é o índice do projeto auditado (1, 2, 3…) — um relatório por projeto. Achados **ordenados por severidade decrescente** (CRITICAL → HIGH → MEDIUM → LOW). Mínimo: 5 achados, ≥1 CRITICAL ou HIGH. Cada achado traz severidade, arquivo:linha, descrição, impacto e recomendação.
 
 ```markdown
 ================================
@@ -39,6 +39,6 @@ Fase 2 concluída. Prosseguir com a refatoração (Fase 3)? [s/n]
 ## Regras
 
 - **Um achado = uma ocorrência localizada.** Se o mesmo anti-pattern aparece em 6 lugares, ou cite os 6 nas linhas ou agrupe num achado com a lista de `arquivo:linha`.
-- **Severidade vem do catálogo**, não do gosto. Ver `references/anti-patterns.md` e a régua em `CONTEXT.md`.
+- **Severidade vem da régua** do catálogo (`references/anti-patterns.md` › _Régua de severidade_), não do gosto.
 - **APIs deprecated** entram como achados normais (severidade conforme o risco), com o equivalente moderno na recomendação.
 - O bloco final de confirmação faz parte do relatório impresso na tela, mas a pausa real é da skill (Fase 2, passo 4).
