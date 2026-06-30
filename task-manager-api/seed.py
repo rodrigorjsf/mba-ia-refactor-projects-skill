@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 
 def seed_data():
     with app.app_context():
+        # Ensure schema exists (init is explicit now, not an import side effect).
+        db.create_all()
 
         Task.query.delete()
         User.query.delete()

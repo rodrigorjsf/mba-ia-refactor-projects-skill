@@ -1,13 +1,21 @@
 import smtplib
-from datetime import datetime
+from datetime import datetime, timezone
+
+from config import settings
+
+
+def _utcnow():
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
 
 class NotificationService:
     def __init__(self):
         self.notifications = []
-        self.email_host = 'smtp.gmail.com'
-        self.email_port = 587
-        self.email_user = 'taskmanager@gmail.com'
-        self.email_password = 'senha123'
+        # SMTP credentials come from configuration/environment, never hardcoded.
+        self.email_host = settings.EMAIL_HOST
+        self.email_port = settings.EMAIL_PORT
+        self.email_user = settings.EMAIL_USER
+        self.email_password = settings.EMAIL_PASSWORD
 
     def send_email(self, to, subject, body):
         try:
@@ -32,7 +40,7 @@ class NotificationService:
             'type': 'task_assigned',
             'user_id': user.id,
             'task_id': task.id,
-            'timestamp': datetime.utcnow()
+            'timestamp': _utcnow()
         })
 
     def notify_task_overdue(self, user, task):
