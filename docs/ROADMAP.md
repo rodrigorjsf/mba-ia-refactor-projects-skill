@@ -15,7 +15,7 @@ Vocabulário em [CONTEXT.md](../CONTEXT.md). Idioma e disciplina de docs em
 ---
 
 > ## ✅ ENTREGUE
-> Skill `refactor-arch` autorada (via `/writing-great-skills`) e **validada em contexto
+> Skill `refactor-arch` autorada e **validada em contexto
 > limpo** nos 3 projetos por agentes cold + verificação adversarial — **3/3 GREEN**.
 > Foram **3 iterações** (v1→v2→v3) guiadas pelos gaps que cada run cold expôs.
 > Os checkboxes granulares abaixo ficam como histórico; a fonte de verdade do "pronto"

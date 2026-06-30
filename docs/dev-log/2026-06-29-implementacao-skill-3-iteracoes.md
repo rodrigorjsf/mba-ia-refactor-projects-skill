@@ -4,7 +4,8 @@
 
 ## O que mudou
 
-- **Skill `refactor-arch` autorada** (via `/writing-great-skills`): `SKILL.md` (3 fases) +
+- **Skill `refactor-arch` autorada** (3 fases como steps + progressive disclosure para os
+  reference files): `SKILL.md` (3 fases) +
   5 reference files (`analysis`, `anti-patterns` com 19 entradas + APIs deprecated,
   `report-template`, `mvc-guidelines`, `playbook` com 11 transformações) + `sync-skill.sh`.
 - **3 projetos refatorados para MVC** in-place, cada um com harness de caracterização +

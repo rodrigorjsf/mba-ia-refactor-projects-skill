@@ -135,10 +135,11 @@ conhecimento de domínio carregado sob demanda em cada fase. As 5 áreas obrigat
 | Guidelines de arquitetura | `references/mvc-guidelines.md` | Responsabilidade de cada camada MVC + exceção do harness |
 | Playbook de refatoração | `references/playbook.md` | **11 transformações** antes/depois |
 
-Princípios do `/writing-great-skills` aplicados: **leading words** (`Análise`,
-`Auditoria`, `Refatoração`, `harness`, `baseline`, `verde`) que ancoram comportamento;
-critérios de completude exaustivos para evitar *premature completion*; régua de
-severidade **inline** (não dependente de arquivo externo que não viaja na cópia).
+Princípios de design de skills aplicados: **leading words** (`Análise`, `Auditoria`,
+`Refatoração`, `harness`, `baseline`, `verde`) que ancoram o comportamento; **progressive
+disclosure** do conhecimento de domínio para os reference files; critérios de completude
+exaustivos para evitar conclusão prematura; régua de severidade **inline** (não dependente
+de arquivo externo que não viaja na cópia da skill).
 
 ### Catálogo de anti-patterns — quais e por quê
 
