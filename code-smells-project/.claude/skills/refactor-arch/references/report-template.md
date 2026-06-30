@@ -1,6 +1,6 @@
 # Template do relatório de auditoria (Fase 2)
 
-Salvar em `reports/audit-project-<N>.md`, onde `<N>` é o índice do projeto auditado (1, 2, 3…) — um relatório por projeto. Achados **ordenados por severidade decrescente** (CRITICAL → HIGH → MEDIUM → LOW). Mínimo: 5 achados, ≥1 CRITICAL ou HIGH. Cada achado traz severidade, arquivo:linha, descrição, impacto e recomendação.
+Salvar em `reports/audit-project-<N>.md`, onde `<N>` é o índice do projeto auditado (1, 2, 3…) — um relatório por projeto. Rodando dentro de um único projeto, derive `<N>` do próximo índice livre em `reports/`, ou use `audit-<nome-da-pasta>.md` se o índice não for derivável. Achados **ordenados por severidade decrescente** (CRITICAL → HIGH → MEDIUM → LOW). Mínimo: 5 achados, ≥1 CRITICAL ou HIGH. Cada achado traz severidade, arquivo:linha, descrição, impacto e recomendação.
 
 ```markdown
 ================================

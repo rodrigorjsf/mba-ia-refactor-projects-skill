@@ -64,7 +64,7 @@ const config = { dbPass: process.env.DB_PASS, paymentGatewayKey: process.env.PAY
 ---
 
 ## 4. Senha plana/caseira → hash adaptativo (migrando o seed!)
-**Princípio:** armazene e compare só por hash adaptativo. **Migre os dados semeados** ou o login regride 200→401.
+**Princípio:** armazene e compare só por hash adaptativo. **Migre os dados semeados** ou o login regride 200→401 (se o app não tem endpoint de login/auth, a migração é higiene de segurança, não protege contrato).
 
 ```python
 # Antes (Flask): senha == row["senha"]  / hashlib.md5(pwd)
@@ -80,6 +80,8 @@ ok = check_password_hash(user.password, pwd)             # no login
 const bcrypt = require('bcrypt');
 const hash = await bcrypt.hash(pwd, 10);                 // cadastro/seed
 const ok = await bcrypt.compare(pwd, user.pass);         // login
+// Sem dependência nativa: Node stdlib `crypto.scryptSync(pwd, salt, 64)` com salt
+// por usuário (formato `scrypt$salt$hash`) — KDF adaptativo, evita o build do bcrypt.
 ```
 
 ---

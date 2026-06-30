@@ -26,9 +26,10 @@ Carregue cada um ao chegar na fase correspondente:
 2. Mapeie a arquitetura atual: arquivos-fonte, camadas existentes (ou a ausência delas) e o **route map** — todos os endpoints (método + path), lendo o registro de rotas e qualquer arquivo tipo `api.http`.
 3. Imprima o resumo: linguagem, framework, dependências, domínio, arquitetura, nº de arquivos analisados, tabelas/coleções do banco.
 4. Gere o **harness de caracterização** a partir do route map e capture o **baseline**:
-   - Sobe o app num porto livre, em background; espera ficar pronto (poll no `/` ou `/health`). Se o porto está hardcoded no código, importe o objeto app/WSGI e sirva num porto livre (ou passe `PORT` por env) — não dependa do `__main__`.
+   - Sobe o app num **porto livre**, em background; espera ficar pronto (poll no `/` ou `/health`, tratando qualquer resposta HTTP — incl. 404 — como "no ar"). Se o porto é hardcoded e o app não expõe objeto importável nem lê `PORT`, suba o **entry point como subprocess** num porto livre. Rode o harness a partir da **raiz do projeto** (ex: `PYTHONPATH=.`) para o import do app resolver. Se o schema não é criado no boot, inicialize-o no harness.
+   - **Semeie dados representativos** antes de capturar (rode o seed do projeto ou crie o mínimo): tabelas vazias travam menos classes de status (login 200 vs 401, `GET /x/1` 200 vs 404) e enfraquecem o baseline como contrato.
    - Bate em cada endpoint: GET sem corpo; para POST/PUT/DELETE, um payload mínimo representativo inferido das validações do código (ou do `api.http`). Envie `Content-Type: application/json` nas requisições com corpo — sem o header, frameworks como Flask retornam 415, que o `try/except` original vira 500 e falsifica o baseline.
-   - Grava por endpoint `{método, path, classe_de_status, chaves_de_topo}` em `harness/baseline.json` dentro do projeto, e o script gerador em `harness/`.
+   - Grava por endpoint `{método, path, classe_de_status, chaves_de_topo}` em `harness/baseline.json` dentro do projeto, e o script gerador em `harness/`. Corpo **array**: registre as chaves do 1º elemento (ou `[]` se vazio); corpo **texto/escalar**: um sentinela (`<text>`). A classe de status é o gate; o shape é diff informativo.
    - Se algum endpoint exercitado dispara um **efeito externo real** (e-mail/SMS/cobrança), neutralize-o (stub/monkeypatch/variável de ambiente) **antes** de capturar. Só neutralize o que um endpoint do harness realmente alcança — não invente stub para código morto/não-roteado.
 
 **Completo quando:** o resumo foi impresso E `harness/baseline.json` existe com todos os endpoints capturados (app sobe, nenhum 5xx inesperado no baseline).
@@ -51,6 +52,7 @@ Só após "sim".
 3. **Regra do hash de senha:** ao trocar armazenamento de senha por hash, migre também os dados semeados (seed/fixtures) para o novo esquema — senão o login regride de 200→401 e o harness fica vermelho.
 4. Re-rode o harness. **Verde** = para cada endpoint, a **classe de status** (2xx/4xx/5xx) é idêntica ao baseline. O shape do corpo é comparado de forma frouxa (chaves de topo): tolere campos removidos por segurança (ex: `senha`, `password`); trate qualquer **regressão de classe de status** como vermelho.
    - O diff de chaves-de-topo é **cego a campos aninhados**: se o segredo/PII está dentro de uma lista/objeto (ex: `dados[].senha`), o harness não enxerga a remoção — **verifique manualmente** que ele saiu.
+   - O baseline com payload mínimo cobre o **caminho feliz**; ele não protege ramos 4xx/5xx. Quando viável, caracterize ao menos um ramo de erro por endpoint (GET inexistente → 404, corpo inválido → 400) para o gate pegar uma regressão tipo 404→500.
    - Correção que muda a classe de status **de propósito** (ex: pôr auth num endpoint destrutivo, remover endpoint de SQL arbitrário) é permitida: ver `references/mvc-guidelines.md` › _exceção ao harness verde_ (hardening + re-baseline + documentar). Nunca deixe um endpoint inseguro aberto só para o status bater.
 5. Se vermelho (regressão acidental), conserte e re-rode até verde. Não declare pronto com o harness vermelho.
 
