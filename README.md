@@ -276,9 +276,33 @@ captured 19 endpoints -> harness/post.json
 Tolerated shape changes: GET /health: removed=['ambiente','db_path','debug','secret_key']
 GREEN — every endpoint preserved its status class.
 ```
-P2 (`node harness/run.js verify`) e P3 (`PYTHONPATH=. python harness/characterize.py ... --compare`)
-re-rodaram **GREEN** da mesma forma. Cada refatoração passou ainda por um **verificador
-adversarial** independente (boot + endpoints + grep de segredo/SQLi/hash fraco): ambos **PASS**.
+Saída real do harness do **P2** (`node harness/run.js verify`):
+```
+=== HARNESS VERIFY ===
+GREEN POST   /api/checkout               base=2xx(200) now=2xx(200)
+GREEN GET    /api/admin/financial-report base=2xx(200) now=2xx(200)
+GREEN DELETE /api/users/:id              base=4xx(401) now=4xx(401)
+
+RESULT: GREEN (status class preserved on every endpoint)
+```
+`DELETE /api/users/:id` permanece **4xx** dos dois lados (re-baseline do hardening de auth).
+
+Saída real do harness do **P3** (`PYTHONPATH=. python harness/characterize.py harness/postrefactor.json --compare harness/baseline.json`):
+```
+Captured 22 endpoints -> harness/postrefactor.json
+  GET    /                200 (2xx)   POST   /login           200 (2xx)
+  GET    /tasks           200 (2xx)   POST   /tasks           201 (2xx)
+  GET    /users/1         200 (2xx)   ... (22 endpoints 2xx)  DELETE /users/3  200 (2xx)
+=== HARNESS COMPARE ===
+GREEN: status class identical for all endpoints.
+  GET /users/1: removed top keys ['password'] (sensitive-tolerated)
+  POST /users:  removed top keys ['password'] (sensitive-tolerated)
+  PUT /users/2: removed top keys ['password'] (sensitive-tolerated)
+RESULT: GREEN
+```
+Os 22 endpoints preservam a classe 2xx; o compare confirma a remoção de `password` (PII)
+do corpo. Cada refatoração passou ainda por um **verificador adversarial** independente
+(boot + endpoints + grep de segredo/SQLi/hash fraco): ambos **PASS**.
 
 ### Observações por stack
 
