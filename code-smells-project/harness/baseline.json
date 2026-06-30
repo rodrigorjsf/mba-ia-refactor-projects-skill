@@ -1,0 +1,222 @@
+[
+  {
+    "label": "index",
+    "method": "GET",
+    "path": "/",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "endpoints",
+      "mensagem",
+      "versao"
+    ]
+  },
+  {
+    "label": "health",
+    "method": "GET",
+    "path": "/health",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "ambiente",
+      "counts",
+      "database",
+      "db_path",
+      "debug",
+      "secret_key",
+      "status",
+      "versao"
+    ]
+  },
+  {
+    "label": "listar_produtos",
+    "method": "GET",
+    "path": "/produtos",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "buscar_produtos",
+    "method": "GET",
+    "path": "/produtos/busca",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso",
+      "total"
+    ]
+  },
+  {
+    "label": "buscar_produto",
+    "method": "GET",
+    "path": "/produtos/1",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "listar_usuarios",
+    "method": "GET",
+    "path": "/usuarios",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "buscar_usuario",
+    "method": "GET",
+    "path": "/usuarios/1",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "criar_usuario",
+    "method": "POST",
+    "path": "/usuarios",
+    "status": 201,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "login",
+    "method": "POST",
+    "path": "/login",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "mensagem",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "criar_produto",
+    "method": "POST",
+    "path": "/produtos",
+    "status": 201,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "mensagem",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "atualizar_produto",
+    "method": "PUT",
+    "path": "/produtos/1",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "mensagem",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "criar_pedido",
+    "method": "POST",
+    "path": "/pedidos",
+    "status": 201,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "mensagem",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "listar_todos_pedidos",
+    "method": "GET",
+    "path": "/pedidos",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "listar_pedidos_usuario",
+    "method": "GET",
+    "path": "/pedidos/usuario/1",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "atualizar_status",
+    "method": "PUT",
+    "path": "/pedidos/1/status",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "mensagem",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "relatorio_vendas",
+    "method": "GET",
+    "path": "/relatorios/vendas",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "dados",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "deletar_produto",
+    "method": "DELETE",
+    "path": "/produtos/10",
+    "status": 200,
+    "status_class": "2xx",
+    "top_level_keys": [
+      "mensagem",
+      "sucesso"
+    ]
+  },
+  {
+    "label": "admin_query",
+    "method": "POST",
+    "path": "/admin/query",
+    "status": 404,
+    "status_class": "4xx",
+    "top_level_keys": [
+      "erro"
+    ],
+    "rebaselined": "Endpoint de SQL arbitrário REMOVIDO por segurança (200 -> 404 intencional). Ver admin_controller.py e o relatório."
+  },
+  {
+    "label": "admin_reset_db",
+    "method": "POST",
+    "path": "/admin/reset-db",
+    "status": 401,
+    "status_class": "4xx",
+    "top_level_keys": [
+      "erro"
+    ],
+    "rebaselined": "Endpoint destrutivo agora exige X-Admin-Token (200 -> 401 sem auth, intencional). Ver admin_controller.py e o relatório."
+  }
+]
