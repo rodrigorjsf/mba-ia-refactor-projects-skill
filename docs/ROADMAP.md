@@ -14,6 +14,21 @@ Vocabulário em [CONTEXT.md](../CONTEXT.md). Idioma e disciplina de docs em
 
 ---
 
+> ## ✅ ENTREGUE
+> Skill `refactor-arch` autorada (via `/writing-great-skills`) e **validada em contexto
+> limpo** nos 3 projetos por agentes cold + verificação adversarial — **3/3 GREEN**.
+> Foram **3 iterações** (v1→v2→v3) guiadas pelos gaps que cada run cold expôs.
+> Os checkboxes granulares abaixo ficam como histórico; a fonte de verdade do "pronto"
+> é a tabela de [Critérios de Aceite](#critérios-de-aceite-gate-final--verbatim-do-spec).
+>
+> | | Stack | Achados | Harness | Verify |
+> |---|---|---|:--:|:--:|
+> | P1 code-smells | Flask monólito | 17 (5C/4H/4M/4L) | 🟢 19 ep | 🟢 |
+> | P2 ecommerce | Node/Express | 15 (4C/4H/4M/3L) | 🟢 3 ep | 🟢 PASS |
+> | P3 task-manager | Flask parcial | 13 (3C/2H/4M/4L) | 🟢 22 ep | 🟢 PASS |
+
+---
+
 ## Fluxo da skill (alvo)
 
 ```mermaid
@@ -207,20 +222,20 @@ Mínimos em **todos os 3 projetos**:
 
 | Critério | Requisito | P1 | P2 | P3 |
 |---|---|:--:|:--:|:--:|
-| Fase 1 detecta stack corretamente | OBRIGATÓRIO | [ ] | [ ] | [ ] |
-| Fase 2 encontra ≥ 5 findings | OBRIGATÓRIO | [ ] | [ ] | [ ] |
-| Fase 2 inclui ≥ 1 CRITICAL ou HIGH | OBRIGATÓRIO | [ ] | [ ] | [ ] |
-| Fase 3 app funciona após refatoração | OBRIGATÓRIO | [ ] | [ ] | [ ] |
+| Fase 1 detecta stack corretamente | OBRIGATÓRIO | [x] | [x] | [x] |
+| Fase 2 encontra ≥ 5 findings | OBRIGATÓRIO | [x] (17) | [x] (15) | [x] (13) |
+| Fase 2 inclui ≥ 1 CRITICAL ou HIGH | OBRIGATÓRIO | [x] | [x] | [x] |
+| Fase 3 app funciona após refatoração | OBRIGATÓRIO | [x] | [x] | [x] |
 
 ---
 
 ## Entregáveis  _(SPEC §Entregável)_
 
-- [ ] Skill completa em `.claude/skills/refactor-arch/` **dentro dos 3 projetos**
-- [ ] Código refatorado dos 3 projetos commitado
-- [ ] `reports/audit-project-{1,2,3}.md` (3 relatórios)
-- [ ] `README.md` atualizado (seções A/B/C/D)
-- [ ] Repositório **público** no GitHub (fork) com tudo acima
+- [x] Skill completa em `.claude/skills/refactor-arch/` **dentro dos 3 projetos**
+- [x] Código refatorado dos 3 projetos commitado
+- [x] `reports/audit-project-{1,2,3}.md` (3 relatórios)
+- [x] `README.md` atualizado (seções A/B/C/D)
+- [x] Repositório **público** no GitHub (fork) com tudo acima
 
 ---
 
