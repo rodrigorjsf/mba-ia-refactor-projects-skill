@@ -1,0 +1,44 @@
+{
+  "generatedAt": "2026-06-30T01:43:41.837Z",
+  "port": "free",
+  "endpoints": [
+    {
+      "name": "POST /api/checkout",
+      "method": "POST",
+      "path": "/api/checkout",
+      "status": 200,
+      "status_class": "2xx",
+      "top_keys": [
+        "enrollment_id",
+        "msg"
+      ]
+    },
+    {
+      "name": "GET /api/admin/financial-report",
+      "method": "GET",
+      "path": "/api/admin/financial-report",
+      "status": 200,
+      "status_class": "2xx",
+      "top_keys": [
+        "course",
+        "revenue",
+        "students"
+      ]
+    },
+    {
+      "name": "DELETE /api/users/:id",
+      "method": "DELETE",
+      "path": "/api/users/2",
+      "status": 401,
+      "status_class": "4xx",
+      "top_keys": [
+        "error"
+      ],
+      "rebaselined": {
+        "from_status": 200,
+        "from_status_class": "2xx",
+        "reason": "Intentional security hardening: destructive endpoint now requires admin auth (audit CRITICAL). Unauthenticated caller -> 401. Documented in reports/audit-project-2.md. See mvc-guidelines.md > 'exceção ao harness verde'."
+      }
+    }
+  ]
+}

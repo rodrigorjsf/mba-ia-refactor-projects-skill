@@ -1,14 +1,18 @@
-const express = require('express');
-const AppManager = require('./AppManager');
-const { config } = require('./utils');
+'use strict';
 
-const app = express();
-app.use(express.json());
+const { createApp } = require('./appFactory');
+const { config } = require('./config');
+const logger = require('./logger');
 
-const manager = new AppManager();
-manager.initDb();
-manager.setupRoutes(app);
-
-app.listen(config.port, () => {
-    console.log(`Frankenstein LMS rodando na porta ${config.port}...`);
-});
+// Entry point: build the app explicitly, then listen. Port comes from config
+// (env PORT, dev default 3000) so the app can boot on a free port.
+createApp()
+  .then(({ app }) => {
+    app.listen(config.port, () => {
+      logger.info(`LMS API rodando na porta ${config.port}...`);
+    });
+  })
+  .catch((err) => {
+    logger.error('Falha ao iniciar a aplicação:', err && err.message);
+    process.exit(1);
+  });
