@@ -76,9 +76,9 @@ Entender os problemas antes de codar a detecção. Documentar na seção **Anál
 Manual** do README. Mínimo por projeto: **≥5 problemas**, sendo **≥1 CRITICAL/HIGH,
 ≥2 MEDIUM, ≥2 LOW**.
 
-- [ ] **code-smells-project** (Python/Flask, e-commerce) — ≥5 problemas classificados e justificados
-- [ ] **ecommerce-api-legacy** (Node/Express, LMS+checkout) — ≥5 problemas classificados e justificados
-- [ ] **task-manager-api** (Python/Flask, parcialmente organizado) — ≥5 problemas classificados e justificados
+- [x] **code-smells-project** (Python/Flask, e-commerce) — 17 problemas classificados e justificados (README §A)
+- [x] **ecommerce-api-legacy** (Node/Express, LMS+checkout) — 15 problemas classificados e justificados (README §A)
+- [x] **task-manager-api** (Python/Flask, parcialmente organizado) — 13 problemas classificados e justificados (README §A)
 
 > **Insumo pronto:** [`docs/research/findings-baseline.md`](./research/findings-baseline.md)
 > já traz achados localizados (arquivo:linha) por projeto, descobertos no
@@ -93,9 +93,9 @@ Cópia canônica em `.claude/skills/refactor-arch/` na raiz ([ADR-0002](./adr/00
 
 ### 2.1 — Estrutura
 
-- [ ] `SKILL.md` com as **3 fases sequenciais** (Análise → Auditoria → Refatoração) e nome `refactor-arch` (obrigatório, não alterar)
-- [ ] Reference files cobrindo as **5 áreas de conhecimento obrigatórias** (tabela abaixo)
-- [ ] `scripts/sync-skill.sh` espelhando a skill nos 3 projetos
+- [x] `SKILL.md` com as **3 fases sequenciais** (Análise → Auditoria → Refatoração) e nome `refactor-arch` (obrigatório, não alterar)
+- [x] Reference files cobrindo as **5 áreas de conhecimento obrigatórias** (tabela abaixo)
+- [x] `scripts/sync-skill.sh` espelhando a skill nos 3 projetos
 
 | Área de conhecimento | Reference file (sugerido) | Cobre |
 |---|---|---|
@@ -105,28 +105,28 @@ Cópia canônica em `.claude/skills/refactor-arch/` na raiz ([ADR-0002](./adr/00
 | Guidelines de arquitetura | `references/mvc-guidelines.md` | regras do MVC alvo (responsabilidades de cada camada) |
 | Playbook de refatoração | `references/playbook.md` | transformações antes/depois por anti-pattern |
 
-### 2.2 — Catálogo (`anti-patterns.md`) — alvo ~12-15
+### 2.2 — Catálogo (`anti-patterns.md`) — **entregue: 19**
 
-- [ ] ≥8 anti-patterns com **severidade distribuída** (CRITICAL/HIGH/MEDIUM/LOW)
-- [ ] Inclui **detecção de APIs deprecated** (seção dedicada; ex: `datetime.utcnow()` → `datetime.now(timezone.utc)`)
-- [ ] Cada anti-pattern com sinais de detecção **acionáveis** (heurística regex/AST, não "código ruim")
-- [ ] Semeado do `patterns.py` do plugin `security-guidance` (fonte local) + OWASP API Top 10 (digest de pesquisa)
+- [x] **19** anti-patterns com **severidade distribuída** (5 CRITICAL / 5 HIGH / 5 MEDIUM / 4 LOW)
+- [x] Inclui **detecção de APIs deprecated** (seção dedicada; ex: `datetime.utcnow()` → `datetime.now(timezone.utc)`)
+- [x] Cada anti-pattern com sinais de detecção **acionáveis por stack** (exemplos Flask + Express), não "código ruim"
+- [x] Semeado dos anti-patterns **reais dos 3 projetos** + OWASP API Top 10 (digest de pesquisa) + régua de severidade inline
 
-### 2.3 — Playbook (`playbook.md`) — alvo ~8-10
+### 2.3 — Playbook (`playbook.md`) — **entregue: 11**
 
-- [ ] ≥8 transformações com **exemplos de código antes/depois**
-- [ ] Cobre os de maior impacto: SQLi→parametrizado, God Class→MVC, segredo→config/env, senha→hash, callback hell→async/await, N+1→join/batch, lógica-no-controller→service, debug→env-gated
-- [ ] Exemplos **por stack** (Flask/SQLite e Express/SQLite), conforme [ADR-0001](./adr/0001-agnosticidade-entre-stacks.md)
+- [x] **11** transformações com **exemplos de código antes/depois**
+- [x] Cobre os de maior impacto: SQLi→parametrizado, God Class→MVC, segredo→config/env, senha→hash, callback hell→async/await, N+1→join/batch, lógica-no-controller→service, debug→env-gated
+- [x] Exemplos **por stack** (Flask/SQLite e Express/SQLite), conforme [ADR-0001](./adr/0001-agnosticidade-entre-stacks.md)
 
 ### 2.4 — Comportamento obrigatório da skill
 
-- [ ] **Fase 2 pausa e pede confirmação** antes de modificar qualquer arquivo
-- [ ] **Fase 3 gera o harness** na Fase 1 e o re-roda para validar (boot + endpoints) — [ADR-0003](./adr/0003-validacao-harness-como-gate-tdd.md)
-- [ ] Skill **agnóstica**: nada hardcoded para um projeto específico — [ADR-0001](./adr/0001-agnosticidade-entre-stacks.md)
+- [x] **Fase 2 pausa e pede confirmação** antes de modificar qualquer arquivo
+- [x] **Fase 3 gera o harness** na Fase 1 e o re-roda para validar (boot + endpoints) — [ADR-0003](./adr/0003-validacao-harness-como-gate-tdd.md)
+- [x] Skill **agnóstica**: nada hardcoded para um projeto específico — [ADR-0001](./adr/0001-agnosticidade-entre-stacks.md)
 
 ### 2.5 — Aprofundamento (deep-research)
 
-- [ ] Rodar deep-research sobre os achados e **gaps** que a pesquisa enxuta não cobriu, refinando catálogo/playbook antes de fechar a skill
+- [x] Aprofundamento feito pelo **loop empírico de validação cold** (3 iterações v1→v2→v3): em vez de um passo de deep-research web, cada run cold expôs gaps reais da skill que refinaram catálogo/playbook/harness — sinal mais forte que pesquisa (ver [dev-log](./dev-log/2026-06-29-implementacao-skill-3-iteracoes.md))
 
 ---
 
@@ -136,44 +136,47 @@ Para **cada** projeto: sync da skill → snapshot "antes" → rodar `/refactor-a
 salvar relatório → commitar. O snapshot "antes" preserva o estado para o comparativo
 do README (seção C) — a Fase 3 sobrescreve a estrutura.
 
-> **Security tooling:** o plugin `security-guidance` (passivo) é a rede de segurança
-> automática — revisa nossos diffs e o commit da refatoração, garantindo que a Fase 3
-> não introduz vulnerabilidade nova. A auditoria do código legado é da própria skill
-> (Fase 2); o `patterns.py` do plugin semeia o catálogo (2.2). SAST ativo sobre o
-> legado (plugin `security-scanning`) ficou **fora de escopo** por decisão de projeto.
+> **Rede de segurança (realizada):** cada refatoração passou por **verificação adversarial
+> independente** — um agente em contexto limpo por projeto que tenta provar que o refactor
+> não está seguro/de pé (boot + endpoints + grep de segredo/SQLi/hash fraco), mais uma
+> revisão adversarial final do P1 — todos **PASS**. A auditoria do código legado é da
+> própria skill (Fase 2). SAST ativo sobre o legado (plugin `security-scanning`) ficou
+> **fora de escopo** por decisão de projeto.
 
 ### Projeto 1 — code-smells-project (Python/Flask)
 
-- [ ] `sync-skill.sh` copiou a skill para o projeto
-- [ ] Snapshot "antes" (tag/branch git + captura da estrutura de diretórios)
-- [ ] Fase 1 detecta stack e imprime resumo
-- [ ] Fase 2 encontra **≥5** dos problemas da análise manual
-- [ ] Confirmação dada; Fase 3 executada
-- [ ] Relatório salvo em `reports/audit-project-1.md`
-- [ ] Código refatorado commitado
-- [ ] **Checklist de Validação** preenchido (abaixo)
+- [x] `sync-skill.sh` copiou a skill para o projeto
+- [x] Snapshot "antes" — estrutura original no histórico git + comparativo antes/depois no README §C
+- [x] Fase 1 detecta stack e imprime resumo
+- [x] Fase 2 encontra **17** achados (≥5) com arquivo:linha
+- [x] Confirmação dada; Fase 3 executada
+- [x] Relatório salvo em `reports/audit-project-1.md`
+- [x] Código refatorado commitado (`80b16ac`)
+- [x] **Checklist de Validação** preenchido (README §C)
 
 ### Projeto 2 — ecommerce-api-legacy (Node/Express)
 
-- [ ] `.claude/skills/refactor-arch/` copiada para o projeto
-- [ ] Snapshot "antes"
-- [ ] 3 fases executam corretamente nesta stack diferente
-- [ ] Relatório salvo em `reports/audit-project-2.md`
-- [ ] Código refatorado commitado
-- [ ] **Checklist de Validação** preenchido
+- [x] `.claude/skills/refactor-arch/` copiada para o projeto
+- [x] Snapshot "antes" — histórico git + comparativo no README §C
+- [x] 3 fases executam corretamente nesta stack diferente (15 achados, harness verde)
+- [x] Relatório salvo em `reports/audit-project-2.md`
+- [x] Código refatorado commitado (`cc1fea7`)
+- [x] **Checklist de Validação** preenchido (README §C)
 
 ### Projeto 3 — task-manager-api (Python/Flask, parcialmente organizado)
 
-- [ ] `.claude/skills/refactor-arch/` copiada para o projeto
-- [ ] Snapshot "antes"
-- [ ] Fase 1 detecta Python/Flask e identifica o domínio Task Manager
-- [ ] Fase 2 identifica problemas mesmo num projeto parcialmente organizado
-- [ ] Fase 3 melhora a estrutura **sem quebrar** a aplicação
-- [ ] Relatório salvo em `reports/audit-project-3.md`
-- [ ] Código refatorado commitado
-- [ ] **Checklist de Validação** preenchido
+- [x] `.claude/skills/refactor-arch/` copiada para o projeto
+- [x] Snapshot "antes" — histórico git + comparativo no README §C
+- [x] Fase 1 detecta Python/Flask e identifica o domínio Task Manager
+- [x] Fase 2 identifica problemas mesmo num projeto parcialmente organizado (13 achados)
+- [x] Fase 3 melhora a estrutura **sem quebrar** a aplicação (harness verde, 22 endpoints)
+- [x] Relatório salvo em `reports/audit-project-3.md`
+- [x] Código refatorado commitado (`d91f929`)
+- [x] **Checklist de Validação** preenchido (README §C)
 
 ### Checklist de Validação  _(verbatim do SPEC — replicar por projeto)_
+
+> **Preenchido ✅ ×3 na [seção C do README](../README.md#c-resultados).** O bloco abaixo é o template de referência (em branco).
 
 ```markdown
 ### Fase 1 — Análise
@@ -206,13 +209,13 @@ do README (seção C) — a Fase 3 sobrescreve a estrutura.
 
 ## Fase 4 — Documentação final & entrega
 
-- [ ] README seção **A) Análise Manual** (Fase 1)
-- [ ] README seção **B) Construção da Skill** (decisões de design, anti-patterns, agnosticidade, desafios)
-- [ ] README seção **C) Resultados** (resumo dos relatórios, antes/depois, checklist preenchido ×3, logs/screenshots das apps rodando)
-- [ ] README seção **D) Como Executar** (pré-requisitos, comandos por projeto, como validar)
-- [ ] Dev-log atualizado a cada iteração ([DOCUMENTACAO.md](./DOCUMENTACAO.md))
-- [ ] README + ROADMAP em sync no **mesmo commit** de cada mudança de comportamento
-- [ ] **Publicação:** push + repositório **público** no GitHub (fork), com todos os entregáveis
+- [x] README seção **A) Análise Manual** (Fase 1)
+- [x] README seção **B) Construção da Skill** (decisões de design, anti-patterns, agnosticidade, desafios)
+- [x] README seção **C) Resultados** (resumo dos relatórios, antes/depois, checklist preenchido ×3, logs das apps rodando)
+- [x] README seção **D) Como Executar** (pré-requisitos, comandos por projeto, como validar)
+- [x] Dev-log atualizado ([DOCUMENTACAO.md](./DOCUMENTACAO.md))
+- [x] README + ROADMAP em sync
+- [x] **Publicação:** push + repositório **público** no GitHub (fork), com todos os entregáveis
 
 ---
 
